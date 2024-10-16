@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="./static/css/bootstrap.css" />
+    <script src="./static/js/jquery-3.6.0.js"></script>
+    <script src="./static/js/bootstrap.js"></script>
+    <style>
+      .full-height-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Full height of the viewport */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container full-height-container">
+      <div class="col-md-8 d-flex justify-content-center align-items-center">
+        <form class="row g-3" action="{% url 'generate_invoice' %}" method="post">
+            {% csrf_token %}
+            <div class="col-md-12">
+              <label for="acc_details" class="form-label">Account Details</label>
+              <input type="text" class="form-control" name="acc_details" id="acc_details" />
+            </div>
+            <div class="col-md-12">
+              <label for="cust_reference" class="form-label">Customer Reference</label>
+              <input type="text" class="form-control" name="cust_reference" id="cust_reference" />
+            </div>
+            <div class="col-6">
+              <label for="trans_date" class="form-label">Transaction Date</label>
+              <input type="date" class="form-control" name="trans_date" id="trans_date" />
+            </div>
+            <div class="col-6">
+              <label for="val_date" class="form-label">Value Date</label>
+              <input type="date" class="form-control" name="val_date" id="val_date" />
+            </div>
+            <div class="col-md-4">
+              <label for="amount" class="form-label">Amount</label>
+              <input type="number" class="form-control" name="amount" id="amount" />
+            </div>
+            <div class="col-md-4">
+              <label for="cheque_number" class="form-label">Cheque Number</label>
+              <input type="text" class="form-control" name="cheque_number" id="cheque_number" />
+            </div>
+            <div class="col-md-4">
+              <label for="trans_ref" class="form-label">Transaction Reference Number</label>
+              <input type="text" class="form-control" name="trans_ref" id="trans_ref" />
+            </div>
+            <div class="col-md-12">
+              <label for="description" class="form-label">Description</label>
+              <input type="text" class="form-control" name="description" id="description" />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          
+      </div>
+    </div>
+  </body>
+</html>
