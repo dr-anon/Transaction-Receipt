@@ -1,90 +1,151 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ title }}</title>
-    <link rel="stylesheet" href="./static/css/bootstrap.css" />
-    <script src="./static/js/jquery-3.6.0.js"></script>
-    <script src="./static/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .watermark-div {
-          position: relative;
-          width: calc(50% - 200px);
-          height: calc(100vh);
-          margin: auto;
-          padding: 20px;
-          background-color: white;
-          color: #333;
-          text-align: center;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-          border-radius: 5px;
-        }
-        .watermark-content {
-          position: relative;
-          z-index: 1;
-          font-size: 1.5em;
-        }
+      body {
+        font-family: "Roboto", sans-serif;
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .watermark-div {
+        position: relative;
+        width: 95%;
+        height: calc(90vh);
+        margin: auto;
+        padding: 20px;
+        background-color: white;
+        color: #333;
+      }
+      .footer-div {
+        position: relative;
+        width: 95%;
+        margin: auto;
+        padding: 20px;
+      }
+      .watermark-content {
+        position: relative;
+        z-index: 1;
+        font-size: 1.5em;
+      }
+      .watermark-div::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("{% static '/logo.png' %}");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 50%;
+        opacity: 0.1;
+        z-index: 0;
+      }
+
+      @media print {
         .watermark-div::before {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-image: url("{% static '/logo.png' %}");
+          opacity: 0.1;
+          background-image: url("{% static 'logo.png' %}");
           background-repeat: no-repeat;
           background-position: center;
-          background-size: 50%;
-          opacity: 0.1; 
-          z-index: 0;
+          background-size: 70%;
         }
+      }
+
+      @media print {
+        td {
+          font-size: 10px;
+        }
+      }
+
+      @media print {
+        h6 {
+          font-size: 10px;
+        }
+      }
+
+      @media print {
+        h3 {
+          font-size: 15px;
+        }
+      }
+
+      .bolder-font {
+        font-weight: 800;
+      }
     </style>
-</head>
-<body>
-  <div class="watermark-div">
-    <div class="d-flex justify-content-between" style="margin-top:90px">
-      <h3>Transaction Details</h3>
-      <h6 class="text-secondary">Created on : {{date}}</h6>
-    </div>
+  </head>
+  <body>
+    <div class="watermark-div">
+      <div class="row d-flex align-items-center" style="margin-top: 90px">
+        <div class="col-auto">
+          <h3 class="bolder-font">
+            Account Details | {{data.acc_details | upper}}
+          </h3>
+        </div>
+      </div>
+      <hr style="border: 1px solid black" />
 
-    <hr style="border: 1px solid black;">
+      <div class="d-flex justify-content-between align-items-center w-100 mb-5">
+        <div>
+          <h6 class="font-weight-bold">Transaction Details</h6>
+        </div>
 
-    <div class="d-flex justify-content-start">
-      <h6 class="font-weight-bold">Account Details : {{"Heel"}}</h6>
-    </div>
+        <div>
+          <h6 class="text-secondary">Created on: {{ date }}</h6>
+        </div>
+      </div>
 
-    <table class="table table-striped">
-
+      <table class="table table-striped table-borderless">
         <tbody>
-            {% for item in data %}
-            <tr>
-                <td>{{ item.acc_details }}</td>
-                <td>{{ item.column2 }}</td>
-            </tr>
-            
-            {% endfor %}
+          <tr>
+            <td>Transaction Date</td>
+            <td>{{ data.trans_date }}</td>
+          </tr>
+          <tr>
+            <td>Value Date</td>
+            <td>{{ data.val_date }}</td>
+          </tr>
+          <tr>
+            <td>Customer Reference</td>
+            <td>{{ data.cust_reference }}</td>
+          </tr>
+          <tr>
+            <td>Amount</td>
+            <td>{{ data.amount }}</td>
+          </tr>
+          <tr>
+            <td>Cheque Number (if applicable)</td>
+            <td>{{ data.cheque_number }}</td>
+          </tr>
+          <tr>
+            <td>Description</td>
+            <td>{{ data.description }}</td>
+          </tr>
+          <tr>
+            <td>Transaction Reference Number (If applicable)</td>
+            <td>{{ data.trans_ref }}</td>
+          </tr>
         </tbody>
-    </table>
-
-    
-  </div>
-</body>
+      </table>
+    </div>
+    <div class="footer-div">
+      <div class="col-auto ms-auto">
+        <h6 class="font-weight-bold">
+          Department Name : Digital Transformation
+        </h6>
+        <h6 class="font-weight-bold">Contact : +233 209 755 881</h6>
+      </div>
+    </div>
+  </body>
 </html>

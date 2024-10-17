@@ -6,7 +6,7 @@ class TransactionForm(models.Model):
     cust_reference = models.CharField(max_length=255)
     trans_date = models.DateField()
     val_date = models.DateField()
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.CharField(max_length=100)
     cheque_number = models.CharField(max_length=50)
     trans_ref = models.CharField(max_length=255)
     description = models.CharField(max_length=255)

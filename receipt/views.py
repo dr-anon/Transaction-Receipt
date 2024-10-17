@@ -58,7 +58,6 @@ def transaction_view(request):
         trans_ref = request.POST.get('trans_ref', '').strip()
         description = request.POST.get('description', '').strip()
 
-        print("=========================",acc_details)
         # Perform basic validation
         errors = []
         if not acc_details:
@@ -75,15 +74,6 @@ def transaction_view(request):
             errors.append("Transaction Reference Number cannot be empty.")
 
         if errors:
-            data = {
-                "acc_details":acc_details,
-                "cust_reference":cust_reference,
-                "trans_date":trans_date,
-                "val_date":val_date,
-                "amount":amount,
-                "trans_ref":trans_ref
-            }
-            print(data)
             return render(request, 'index.html', context = {'errors': errors,"data":data})
         
         # Save the data to the model if no errors
@@ -105,8 +95,10 @@ def transaction_view(request):
                 "trans_date":trans_date,
                 "val_date":val_date,
                 "amount":amount,
-                "trans_ref":trans_ref
+                "trans_ref":trans_ref,
+                "description":description,
+                "cheque_number":cheque_number
             }
-        print("This is for data=============================================",data)
-        return render(request, 'index.html', context = {'errors': errors,"data":data})
+        
+        return render(request, 'index.html', context = {'errors': errors,"data":data,"date":date.today()})
     
